@@ -7,10 +7,12 @@
 #' @param cpResults A list containing the results from CohortPathway analysis.
 #'        Must include 'pathwaysAnalysisPathsData' and 'isCombo' data frames.
 #' @param generationSet A data frame containing information about cohorts
-#'        that will be used to generate descriptive names for the events in the diagram and target names of the plot
+#'        that will be used to generate descriptive names for the events in the diagram and target names of the plot.
 #' @param nPaths Integer specifying the maximum number of steps to include in the plot.
 #' @param minCount Integer specifying the minimum count value for a path to be included.
-#' @return An HTML widget object containing the interactive sunburst plot.
+#' @param plotWidth Character specifying the width of the sunburst plot by percentage.
+#' @param plotHeight Integer specifying the height of the sunburst plot.
+#' @return An R list object containing an HTML widget (sunburst plot) and a sequence counts data frame.
 #' @export
 #' 
 #' @examples
@@ -122,7 +124,13 @@ createPathwaySunburst <- function(
     count = TRUE
   )
   
-  return(sunburstPlot)
+  # Create list with sunburst plot widget and data frame with sequence counts
+  plotAndTable <- list(
+    pathsDataFinal,
+    sunburstPlot
+  )
+  
+  return(plotAndTable)
 }
 
 
