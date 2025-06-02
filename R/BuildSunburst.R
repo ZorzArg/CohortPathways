@@ -126,8 +126,8 @@ createPathwaySunburst <- function(
   
   # Create list with sunburst plot widget and data frame with sequence counts
   plotAndTable <- list(
-    pathsDataFinal,
-    sunburstPlot
+    sequenceCountsTable = pathsDataFinal,
+    sunburstPlot = sunburstPlot
   )
   
   return(plotAndTable)
