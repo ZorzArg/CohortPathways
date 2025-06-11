@@ -32,6 +32,7 @@ createPathwaySunburst <- function(
   rlang::check_installed("sunburstR")
   rlang::check_installed("htmlwidgets")
   rlang::check_installed("d3r")
+  rlang::check_installed("RColorBrewer")
   
   # Input validation
   checkmate::assertList(
@@ -121,7 +122,8 @@ createPathwaySunburst <- function(
     height = plotHeight, 
     valueField = "countValue",
     legend = list(w = 490, h = 50, r = 100, s = 5),
-    count = TRUE
+    count = TRUE,
+    colors = RColorBrewer::brewer.pal(nPaths, "Set2")
   )
   
   # Create data frame with sequence counts
