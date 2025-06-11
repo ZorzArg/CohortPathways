@@ -100,9 +100,13 @@ createPathwaySunburst <- function(
     }
   )
   
-  # Combine original data with new "step" columns
+  # Combine original data with new "step" columns; Add database and target cohort id columns;
   pathsDataFinal <- dplyr::bind_cols(pathsData, stepNames) |>
     dplyr::select(!dplyr::contains("step")) |>
+    dplyr::mutate(
+      databaseId = generationSet$databaseId,
+      targetCohortId = cpResults$pathwayAnalysisStatsData$targetCohortId
+     ) |>
     dplyr::filter(countValue > minCount)
   
   # Remove columns with all NA values after filtering for minimum person count
