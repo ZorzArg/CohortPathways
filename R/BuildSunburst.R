@@ -101,20 +101,16 @@ createPathwaySunburst <- function(
   )
   
   # Combine original data with new "step" columns; Add database and target cohort id columns;
-  pathsDataFinal <- dplyr::bind_cols(pathsData, stepNames) |>
+  pathsDataForPlot <- dplyr::bind_cols(pathsData, stepNames) |>
     dplyr::select(!dplyr::contains("step")) |>
-    dplyr::mutate(
-      databaseId = unique(generationSet$databaseId),
-      targetCohortId = cpResults$pathwayAnalysisStatsData$targetCohortId
-     ) |>
     dplyr::filter(countValue > minCount)
   
   # Remove columns with all NA values after filtering for minimum person count
-  pathsDataFinal <- pathsDataFinal[, colSums(!is.na(pathsDataFinal)) > 0]
+  pathsDataForPlot <- pathsDataForPlot[, colSums(!is.na(pathsDataForPlot)) > 0]
   
   # Convert tabular data to JSON
   pathsDataJson <- d3r::d3_nest(
-    pathsDataFinal, 
+    pathsDataForPlot, 
     value_cols = "countValue"
   )
   
@@ -128,9 +124,16 @@ createPathwaySunburst <- function(
     count = TRUE
   )
   
-  # Create list with sunburst plot widget and data frame with sequence counts
+  # Create data frame with sequence counts
+  pathsDataFrame <- pathsDataForPlot |>
+    dplyr::mutate(
+      databaseId = unique(generationSet$databaseId),
+      targetCohortId = cpResults$pathwayAnalysisStatsData$targetCohortId
+    )
+  
+  # Create list with sunburst plot widget & data frame 
   plotAndTable <- list(
-    sequenceCountsTable = pathsDataFinal,
+    sequenceCountsTable = pathsDataFrame,
     sunburstPlot = sunburstPlot
   )
   
