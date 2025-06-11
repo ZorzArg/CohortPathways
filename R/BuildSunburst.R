@@ -104,7 +104,7 @@ createPathwaySunburst <- function(
   pathsDataFinal <- dplyr::bind_cols(pathsData, stepNames) |>
     dplyr::select(!dplyr::contains("step")) |>
     dplyr::mutate(
-      databaseId = generationSet$databaseId,
+      databaseId = unique(generationSet$databaseId),
       targetCohortId = cpResults$pathwayAnalysisStatsData$targetCohortId
      ) |>
     dplyr::filter(countValue > minCount)
